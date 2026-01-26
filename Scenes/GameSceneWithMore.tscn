@@ -21,11 +21,20 @@ position = Vector2(240, 176)
 [node name="MonsterEntity2" parent="." instance=ExtResource("4_a3w4r")]
 position = Vector2(400, 176)
 
+[node name="MonsterEntity3" parent="." instance=ExtResource("4_a3w4r")]
+position = Vector2(500, 176)
+
 [node name="CollectibleEntity" parent="." instance=ExtResource("5_abcde")]
 position = Vector2(320, 100)
 
 [node name="CollectibleEntity2" parent="." instance=ExtResource("5_abcde")]
 position = Vector2(100, 100)
+
+[node name="CollectibleEntity3" parent="." instance=ExtResource("5_abcde")]
+position = Vector2(550, 100)
+
+[node name="CollectibleEntity4" parent="." instance=ExtResource("5_abcde")]
+position = Vector2(600, 100)
 
 [node name="PlayerEntity" parent="." instance=ExtResource("4_an8j4")]
 position = Vector2(240, 40)
