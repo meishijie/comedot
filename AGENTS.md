@@ -152,10 +152,16 @@ func getRequiredComponents() -> Array[Script]:
 
 ## Common Issues & Solutions
 
+### AreaCollisionComponent Signals
+- `AreaCollisionComponent` (and its subclasses like `BounceComponent`) does **NOT** connect collision signals (`body_entered`, etc.) by default.
+- **Solution**: You MUST call `connectSignals()` manually in your subclass's `_ready()` method, OR set `shouldConnectSignalsOnReady = true` in the inspector (or default value).
+- Failure to do this will result in no collision callbacks being triggered.
+
 ### Component Dependencies
 - Order matters in entity node tree - check component requirements
 - Missing dependencies cause crashes - implement `getRequiredComponents()`
 - Use `checkRequiredComponents()` for validation
+- **InputComponent Dependency**: `GunComponent` currently has a hard dependency on `InputComponent`. If using `GunComponent` on an AI entity (like a Turret), you must add an `InputComponent` and set `isPlayerControlled = false`.
 
 ### Performance Considerations
 - `functionsAlreadyCalledOnceThisFrame` prevents duplicate frame calls

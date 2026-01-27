@@ -34,6 +34,7 @@ class Actions:
 	const aimDown		:= &"aimDown"
 
 	const jump			:= &"jump"
+	const dash			:= &"dash"
 	const fire			:= &"fire"
 	const interact		:= &"interact"
 

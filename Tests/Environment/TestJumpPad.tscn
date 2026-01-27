@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://boe2066dbmxps"]
+
+[ext_resource type="PackedScene" uid="uid://cdn73unayw42f" path="res://Entities/Environment/JumpPadEntity.tscn" id="1_jumppad"]
+[ext_resource type="PackedScene" uid="uid://bumu6nhses65v" path="res://Templates/Entities/PlayerEntityTemplate-Platformer.tscn" id="2_player"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
+size = Vector2(400, 20)
+
+[sub_resource type="QuadMesh" id="QuadMesh_floor"]
+size = Vector2(400, 20)
+
+[node name="TestJumpPad" type="Node2D" unique_id=1558211199]
+
+[node name="Floor" type="StaticBody2D" parent="." unique_id=503255044]
+position = Vector2(0, 50)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=387165720]
+shape = SubResource("RectangleShape2D_floor")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Floor" unique_id=894851821]
+modulate = Color(0.3, 0.3, 0.3, 1)
+mesh = SubResource("QuadMesh_floor")
+
+[node name="JumpPadEntity" parent="." unique_id=350660472 instance=ExtResource("1_jumppad")]
+position = Vector2(50, 40)
+
+[node name="PlayerEntity" parent="." unique_id=1909069406 instance=ExtResource("2_player")]
+position = Vector2(-50, -110)
+
+[node name="Label" type="Label" parent="." unique_id=1381114609]
+offset_left = -174.0
+offset_top = -147.0
+offset_right = 166.0
+offset_bottom = -98.0
+text = "TEST JUMP PAD
+Move Right -> Jump on Pad -> BOING!"
+horizontal_alignment = 1

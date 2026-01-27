@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://test_dash"]
+
+[ext_resource type="PackedScene" uid="uid://bumu6nhses65v" path="res://Templates/Entities/PlayerEntityTemplate-Platformer.tscn" id="2_player"]
+[ext_resource type="Script" path="res://Components/Control/DashComponent.gd" id="3_dash"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
+size = Vector2(800, 20)
+
+[sub_resource type="QuadMesh" id="QuadMesh_floor"]
+size = Vector2(800, 20)
+
+[node name="TestDash" type="Node2D"]
+
+[node name="Floor" type="StaticBody2D" parent="."]
+position = Vector2(0, 50)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+shape = SubResource("RectangleShape2D_floor")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Floor"]
+mesh = SubResource("QuadMesh_floor")
+modulate = Color(0.3, 0.3, 0.3, 1)
+
+[node name="PlayerEntity" parent="." instance=ExtResource("2_player")]
+position = Vector2(0, 0)
+
+[node name="DashComponent" type="Node" parent="PlayerEntity"]
+script = ExtResource("3_dash")
+dashSpeed = 800.0
+duration = 0.15
+cooldown = 0.5
+inputAction = &"fire" 
+
+[node name="Label" type="Label" parent="."]
+offset_left = -174.0
+offset_top = -147.0
+offset_right = 166.0
+offset_bottom = -98.0
+text = "TEST DASH ABILITY
+Move + Press 'Fire' (X/Shift/Click) to Dash!"
+horizontal_alignment = 1

@@ -3,6 +3,13 @@
 NOTE: That file is NOT regularly updated, so search the source code for `TODO:` or `FIXME:` etc. comments to see exactly what's missing and where.
 
 
+## Pending Tasks (Added by Sisyphus)
+
+- [ ] Refactor `GunComponent` to decouple from `InputComponent`. Currently, `TurretEntity` requires a dummy `InputComponent` (with `isPlayerControlled = false`) just to satisfy `GunComponent`'s dependency. `GunComponent` should support AI control more natively.
+- [ ] Fix Camera jitter when reattaching (mentioned in analysis).
+- [ ] Fix GunComponent velocity bug (shooting while moving backwards makes bullets faster).
+
+
 ## Major
 
 - [ ] Standard architecture for game environment state and "current run/campaign" state
