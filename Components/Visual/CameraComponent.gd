@@ -91,10 +91,10 @@ func _ready() -> void:
 
 #region Detachment & Reattachment
 
-func registerEntity(newParentEntity: Entity) -> void:
+func registerEntity(newParentEntity: Node) -> void:
 	# NOTE: This method is overridden in order to reconnect signals in case the new parent is also an Entity.
 	super.registerEntity(newParentEntity)
-	if newParentEntity: connectSignals() # Make sure the new parent is an Entity
+	if parentEntity: connectSignals() # Make sure the new parent is an Entity
 
 
 func connectSignals() -> void:

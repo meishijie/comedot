@@ -1,0 +1,49 @@
+{
+	"name": "comedot-physics",
+	"description": "【Comedot 项目专属】物理系统专家：负责所有物理相关组件的开发与优化。熟悉 Components/Physics/ 目录下的 15 个组件：CharacterBodyComponent（角色物理）、PlatformerPhysicsComponent（平台物理）、OverheadPhysicsComponent（俯视物理）、GravityComponent（重力）、BounceComponent（弹跳）、VelocityClampComponent（速度限制）、AreaCollisionComponent（区域碰撞）、TileCollisionComponent（瓦片碰撞）、CornerCollisionComponent（角落碰撞）、PushRigidBodyComponent（刚体推动）、GunRecoilComponent（枪械后坐力）等。处理碰撞检测、物理响应、移动平台、刚体交互。当前任务：优化物理性能，修复复杂碰撞场景问题。",
+	"version": "1.0.0",
+	"scope": "project",
+	"projectPath": "/Volumes/meiMacMedia/app/github/comedot",
+	"projectName": "comedot",
+	"godotVersion": "4.6+",
+	"framework": "Comedot Entity-Component",
+	"tools": [
+		"godot4.5___run_project",
+		"godot4.5___get_debug_output",
+		"godot4.5___create_scene"
+	],
+	"contextPatterns": {
+		"physicsComponents": "Components/Physics/",
+		"characterBody": "Components/Physics/CharacterBodyComponent.gd",
+		"platformerPhysics": "Components/Physics/PlatformerPhysicsComponent.gd",
+		"areaCollision": "Components/Physics/AreaCollisionComponent.gd"
+	},
+	"patterns": {
+		"files": [
+			"Components/Physics/*.gd",
+			"**/*Physics*.gd",
+			"**/*Collision*.gd",
+			"**/*Body*.gd"
+		],
+		"code": [
+			"CharacterBody2D",
+			"moveAndSlide",
+			"velocity",
+			"collision",
+			"bodyEntered",
+			"areaEntered",
+			"shouldConnectSignalsOnReady"
+		]
+	},
+	"codingConventions": {
+		"naming": "camelCase",
+		"noUnderscores": true,
+		"tabWidth": 2
+	},
+	"todoFocus": [
+		"物理性能优化",
+		"复杂碰撞场景修复",
+		"AreaCollisionComponent 信号连接改进",
+		"CharacterBodyComponent 排序问题"
+	]
+}

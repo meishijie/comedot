@@ -99,11 +99,11 @@ func createCharts() -> void:
 
 #region Labels
 
-func registerEntity(newParentEntity: Entity) -> void:
+func registerEntity(newParentEntity: Node) -> void:
 	super.registerEntity(newParentEntity)
-	if self.is_node_ready():
+	if parentEntity and self.is_node_ready():
 		entityLabel.text = parentEntity.name
-		entityLabel.tooltip_text = parentEntity.logFullName
+		entityLabel.tooltip_text = str(parentEntity.get(&"logFullName") if parentEntity.has_method(&"get") else parentEntity.name)
 
 
 func updateLabelsVisibility() -> void:

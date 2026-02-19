@@ -55,10 +55,10 @@ func onBodyEntered(bodyEntered: Node2D) -> void:
 			charBody = parent.getBody()
 			
 	if charBody:
-		_applyBounce(charBody)
+		applyBounce(charBody)
 
 
-func _applyBounce(body: CharacterBody2D) -> void:
+func applyBounce(body: CharacterBody2D) -> void:
 	if debugMode:
 		emitDebugBubble("BOING!", Color.ORANGE, true)
 

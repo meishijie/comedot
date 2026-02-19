@@ -1,0 +1,64 @@
+[gd_scene load_steps=14 format=3 uid="uid://eye_turret_001"]
+
+[ext_resource type="Script" uid="uid://b3tgnb1y0hgk1" path="res://Entities/Entity.gd" id="1_entity"]
+[ext_resource type="PackedScene" uid="uid://5tvqunkoa4l7" path="res://Components/Combat/FactionComponent.tscn" id="2_faction"]
+[ext_resource type="Texture2D" uid="uid://2pkst6hcbtlp" path="res://Assets/Tiles/Kenney1Bit-Colored-Transparent.png" id="2_sprite"]
+[ext_resource type="PackedScene" uid="uid://cnu5f0ycxgu8d" path="res://Components/Combat/HealthComponent.tscn" id="3_health"]
+[ext_resource type="Script" uid="uid://dif3dj8k5ixfw" path="res://Resources/Stats/Stat.gd" id="4_stat"]
+[ext_resource type="PackedScene" uid="uid://ffkcrlcom1kx" path="res://Components/Combat/DamageReceivingComponent.tscn" id="6_damage_recv"]
+[ext_resource type="PackedScene" uid="uid://turtleturtleturtle" path="res://Components/AI/TurretBehaviorComponent.tscn" id="7_turret"]
+[ext_resource type="PackedScene" uid="uid://cnu5f0ycxgu8d" path="res://Components/Combat/HealthComponent.tscn" id="3_health"]
+[ext_resource type="PackedScene" uid="uid://cdq0dcwhcrm5p" path="res://Components/Control/InputComponent.tscn" id="14_input"]
+
+[ext_resource type="PackedScene" uid="uid://gungungun" path="res://Components/Combat/GunComponent.tscn" id="8_gun"]
+
+[sub_resource type="RectangleShape2D" id="RectShape_Body"]
+resource_local_to_scene = true
+size = Vector2(16, 16)
+
+[sub_resource type="Resource" id="Resource_Health"]
+resource_local_to_scene = true
+resource_name = "turretHealth"
+script = ExtResource("4_stat")
+max = 5
+value = 5
+name = &"turretHealth"
+displayName = "Turret HP"
+metadata/_custom_type_script = "uid://dif3dj8k5ixfw"
+
+[node name="EyeTurret" type="StaticBody2D" node_paths=PackedStringArray("sprite")]
+collision_layer = 10
+collision_mask = 126
+script = ExtResource("1_entity")
+sprite = NodePath("Sprite2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectShape_Body")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 0, 0, 1)
+use_parent_material = true
+texture = ExtResource("2_sprite")
+region_enabled = true
+region_rect = Rect2(448, 128, 16, 16)
+
+[node name="HealthComponent" parent="." instance=ExtResource("3_health")]
+health = SubResource("Resource_Health")
+
+[node name="FactionComponent" parent="." instance=ExtResource("2_faction")]
+factions = 8
+
+[node name="DamageReceivingComponent" parent="." instance=ExtResource("6_damage_recv")]
+collision_layer = 1032
+collision_mask = 1060
+
+[node name="TurretBehaviorComponent" parent="." node_paths=PackedStringArray("gunComponent") instance=ExtResource("7_turret")]
+gunComponent = NodePath("../GunComponent")
+range = 300.0
+
+[node name="GunComponent" parent="." instance=ExtResource("8_gun")]
+shootDelay = 1.0
+bulletSpeed = 300.0
+
+[node name="InputComponent" parent="." instance=ExtResource("14_input")]
+isPlayerControlled = false

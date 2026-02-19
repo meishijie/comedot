@@ -23,25 +23,30 @@ signal didFinishBlinking
 
 
 func _ready() -> void:
-	self.process_mode = Node.PROCESS_MODE_ALWAYS
-	self.autostart = true
+	if is_instance_of(self, Timer):
+		self.set(&"process_mode", Node.PROCESS_MODE_ALWAYS)
+		self.set(&"autostart", true)
 	startBlink()
 
 
 func startBlink() -> void: # Not named "start" to avoid conflict with Timer.start()
+	if not parentEntity:
+		return
 	self.entityPreviousProcessMode  = parentEntity.process_mode
 	parentEntity.visible = false
 	parentEntity.process_mode = Node.PROCESS_MODE_DISABLED
 
 
 func onTimeout() -> void:
+	if not parentEntity: return
 	parentEntity.visible = not parentEntity.visible
 	if parentEntity.visible:  count += 1 # 2 ticks of the Timer count as 1 "blink"; when the node becomes visible again.
 	if count >= timesToBlink: finishBlink()
 
 
 func finishBlink() -> void:
-	parentEntity.visible = true
-	parentEntity.process_mode = self.entityPreviousProcessMode
+	if parentEntity:
+		parentEntity.visible = true
+		parentEntity.process_mode = self.entityPreviousProcessMode
 	didFinishBlinking.emit() # In case we are used as a death animation
 	self.removeFromEntity()

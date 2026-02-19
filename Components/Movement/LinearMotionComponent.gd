@@ -43,6 +43,7 @@ signal didReachMaximumDistance
 
 
 func _ready() -> void:
+	super._ready()
 	self.speed = self.initialSpeed # Can't make @onready because of @export_storage
 
 	# NOTE: Check the maximum distance on ready, in case a bullet etc. was loaded from a save file
@@ -50,9 +51,9 @@ func _ready() -> void:
 	and distanceTraveled > maximumDistance or is_equal_approx(distanceTraveled, maximumDistance):
 		# TBD: Emit the signal or not? because this may have happened a long time ago
 		self.isMoving = false # Calls set_physics_process()
-		if shouldDeleteParentAtMaximumDistance:
-			parentEntity.queue_free()
-			return
+	if not parentEntity:
+		# printWarning("_ready(): parentEntity is null!") # Redundant with Component.gd warning
+		return
 
 	self.set_physics_process(isEnabled and isMoving) # Apply setters because Godot doesn't on initialization
 
@@ -66,7 +67,9 @@ func _physics_process(delta: float) -> void: # TBD: _physics_process() instead o
 			if shouldStopAtMaximumDistance: self.isMoving = false
 			didReachMaximumDistance.emit() # Emit the signal after updating the flag and before we delete the entity!
 			if shouldDeleteParentAtMaximumDistance: parentEntity.queue_free()
-			return
+	if not parentEntity:
+		self.set_physics_process(false)
+		return
 
 	# Get the current direction
 	var direction: Vector2 = Vector2.RIGHT.rotated(parentEntity.rotation) # WHYNOT: Vector2.from_angle() is not guaranteed to be a 1.0 unit vector

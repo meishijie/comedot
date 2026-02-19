@@ -1,0 +1,26 @@
+{
+  "name": "ai-behavior",
+  "description": "【Comedot 项目专属】AI 行为系统专家：负责 TurretBehaviorComponent、ChaseComponent、NavigationComponent、PathFollowComponent、TimerAgentComponentBase 等 AI 组件。熟悉目标追踪、预测射击、路径导航、状态机行为。处理敌人生成、巡逻、追击、警戒等行为模式。当前开发：Turret 炮塔 AI 的目标检测和射击逻辑优化。",
+  "version": "1.0.0",
+  "scope": "project",
+  "projectPath": "/Volumes/meiMacMedia/app/github/comedot",
+  "projectName": "comedot",
+  "godotVersion": "4.6+",
+  "framework": "Comedot Entity-Component",
+  "tools": ["godot4.5___run_project", "godot4.5___get_debug_output", "godot4.5___create_scene"],
+  "contextPatterns": {
+    "aiComponents": "Components/AI/",
+    "enemyEntities": "Entities/Enemies/",
+    "aiTests": "Tests/AI/"
+  },
+  "patterns": {
+    "files": ["**/*Turret*.gd", "**/*Chase*.gd", "**/*Navigation*.gd", "**/*Agent*.gd"],
+    "code": ["updateTarget", "rotateTowardsTarget", "predictTargetPosition", "tryToShoot"]
+  },
+  "codingConventions": {
+    "naming": "camelCase",
+    "noUnderscores": true,
+    "tabWidth": 2
+  },
+  "todoFocus": ["Turret AI 完善", "目标预测算法", "AI 组件与 InputComponent 解耦"]
+}

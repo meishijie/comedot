@@ -90,7 +90,8 @@ func getRequiredComponents() -> Array[Script]:
 
 func _ready() -> void:
 	super._ready()
-	Tools.connectSignal(inputComponent.didUpdateInputActionsList, self.onInputComponent_didUpdateInputActionsList)
+	if inputComponent:
+		Tools.connectSignal(inputComponent.didUpdateInputActionsList, self.onInputComponent_didUpdateInputActionsList)
 	self.set_process(isEnabled) # Apply setter because Godot doesn't on initialization
 
 

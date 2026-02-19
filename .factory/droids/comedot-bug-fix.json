@@ -1,0 +1,26 @@
+{
+  "name": "bug-fix",
+  "description": "【Comedot 项目专属】Bug 修复专家：专门处理 ToDo.md 中标记的紧急和主要任务。当前聚焦：1) Camera 抖动问题（reattaching 时）2) GunComponent 速度 bug（反向射击子弹加速）3) GunComponent 与 InputComponent 耦合问题。擅长追踪代码问题、分析堆栈、修复后验证。使用 Debug.gd 日志系统和 DebugComponent 进行问题定位。",
+  "version": "1.0.0",
+  "scope": "project",
+  "projectPath": "/Volumes/meiMacMedia/app/github/comedot",
+  "projectName": "comedot",
+  "godotVersion": "4.6+",
+  "framework": "Comedot Entity-Component",
+  "tools": ["godot4.5___run_project", "godot4.5___get_debug_output", "godot4.5___stop_project"],
+  "contextPatterns": {
+    "cameraScripts": "Components/Visual/*Camera*.gd",
+    "gunScripts": "Components/Combat/*Gun*.gd",
+    "debugScripts": "AutoLoad/Debug.gd"
+  },
+  "patterns": {
+    "files": ["**/*Camera*.gd", "**/*Gun*.gd"],
+    "code": ["velocity.*shoot|fire\\(\\)", "camera.*jitter|shake", "NOTIFICATION_PARENTED"]
+  },
+  "codingConventions": {
+    "naming": "camelCase",
+    "noUnderscores": true,
+    "tabWidth": 2
+  },
+  "todoFocus": ["Camera 抖动修复", "GunComponent 速度 bug", "InputComponent 解耦重构"]
+}

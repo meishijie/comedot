@@ -1,0 +1,87 @@
+[gd_scene load_steps=18 format=3 uid="uid://lurker_001"]
+
+[ext_resource type="Script" uid="uid://b3tgnb1y0hgk1" path="res://Entities/Entity.gd" id="1_entity"]
+[ext_resource type="PackedScene" uid="uid://5tvqunkoa4l7" path="res://Components/Combat/FactionComponent.tscn" id="2_faction"]
+[ext_resource type="Texture2D" uid="uid://2pkst6hcbtlp" path="res://Assets/Tiles/Kenney1Bit-Colored-Transparent.png" id="2_sprite"]
+[ext_resource type="PackedScene" uid="uid://cpklu2uieedw7" path="res://Components/Combat/DamageComponent.tscn" id="3_damage"]
+[ext_resource type="PackedScene" uid="uid://cnu5f0ycxgu8d" path="res://Components/Combat/HealthComponent.tscn" id="3_health"]
+[ext_resource type="Script" uid="uid://dif3dj8k5ixfw" path="res://Resources/Stats/Stat.gd" id="4_stat"]
+[ext_resource type="PackedScene" uid="uid://ylultcpjxp6" path="res://Components/Physics/CornerCollisionComponent.tscn" id="4_corner"]
+[ext_resource type="PackedScene" uid="uid://cwposw6wqg1mi" path="res://Components/Movement/PlatformerPatrolComponent.tscn" id="5_patrol"]
+[ext_resource type="PackedScene" uid="uid://ffkcrlcom1kx" path="res://Components/Combat/DamageReceivingComponent.tscn" id="6_damage_recv"]
+[ext_resource type="PackedScene" uid="uid://dn7cpj4u7w1jy" path="res://Components/Physics/CharacterBodyComponent.tscn" id="7_body"]
+[ext_resource type="PackedScene" uid="uid://hidewhenstat" path="res://Components/Visual/HideWhenStationaryComponent.tscn" id="8_hide"]
+[ext_resource type="PackedScene" uid="uid://bv4nl55gi16vx" path="res://Components/Physics/PlatformerPhysicsComponent.tscn" id="14_physics"]
+[ext_resource type="PackedScene" uid="uid://cdq0dcwhcrm5p" path="res://Components/Control/InputComponent.tscn" id="15_input"]
+
+[sub_resource type="RectangleShape2D" id="RectShape_Body"]
+resource_local_to_scene = true
+size = Vector2(16, 16)
+
+[sub_resource type="Resource" id="Resource_Health"]
+resource_local_to_scene = true
+resource_name = "lurkerHealth"
+script = ExtResource("4_stat")
+max = 4
+value = 4
+name = &"lurkerHealth"
+displayName = "Lurker HP"
+metadata/_custom_type_script = "uid://dif3dj8k5ixfw"
+
+[sub_resource type="RectangleShape2D" id="RectShape_Damage"]
+resource_local_to_scene = true
+size = Vector2(18, 18)
+
+[node name="Lurker" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "body")]
+editor_description = "An enemy that is invisible until it moves."
+collision_layer = 10
+collision_mask = 126
+script = ExtResource("1_entity")
+sprite = NodePath("Sprite2D")
+body = NodePath(".")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectShape_Body")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.2, 0.2, 0.2, 1)
+use_parent_material = true
+texture = ExtResource("2_sprite")
+region_enabled = true
+region_rect = Rect2(448, 240, 16, 16)
+
+[node name="HealthComponent" parent="." instance=ExtResource("3_health")]
+health = SubResource("Resource_Health")
+
+[node name="FactionComponent" parent="." instance=ExtResource("2_faction")]
+factions = 8
+
+[node name="DamageReceivingComponent" parent="." instance=ExtResource("6_damage_recv")]
+collision_layer = 1032
+collision_mask = 1060
+
+[node name="DamageComponent" parent="." instance=ExtResource("3_damage")]
+collision_layer = 1032
+collision_mask = 1028
+
+[node name="DamageCollisionShape" parent="DamageComponent" index="0"]
+position = Vector2(2.08165e-12, 2.08165e-12)
+shape = SubResource("RectShape_Damage")
+
+[node name="HideWhenStationaryComponent" parent="." instance=ExtResource("8_hide")]
+
+[node name="PlatformerPatrolComponent" parent="." instance=ExtResource("5_patrol")]
+randomizeInitialDirection = true
+
+[node name="CharacterBodyComponent" parent="." node_paths=PackedStringArray("body") instance=ExtResource("7_body")]
+body = NodePath("..")
+
+[node name="PlatformerPhysicsComponent" parent="." instance=ExtResource("14_physics")]
+maxSpeed = 120.0
+
+[node name="CornerCollisionComponent" parent="." instance=ExtResource("4_corner")]
+
+[node name="InputComponent" parent="." instance=ExtResource("15_input")]
+isPlayerControlled = false
+
+[editable path="DamageComponent"]

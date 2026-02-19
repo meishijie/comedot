@@ -1,0 +1,55 @@
+{
+	"name": "comedot-ui",
+	"description": "【Comedot 项目专属】UI 开发专家：负责游戏中所有用户界面组件的开发与优化。熟悉 UI/ 目录下的所有组件：StatPips、StatBar、StatUI（属性显示）、UpgradeUI（升级界面）、InventoryItemUI（物品栏）、ActionButton（动作按钮）、PauseOverlay（暂停覆盖层）、Menus/（菜单系统）、Lists/（列表组件）、Labels/（标签组件）、Chart（调试图表）。处理 UI 布局、焦点导航、输入处理、UI 动画。当前任务：完善标准 UI 架构，实现游戏内菜单和窗口系统。",
+	"version": "1.0.0",
+	"scope": "project",
+	"projectPath": "/Volumes/meiMacMedia/app/github/comedot",
+	"projectName": "comedot",
+	"godotVersion": "4.6+",
+	"framework": "Comedot Entity-Component",
+	"tools": [
+		"godot4.5___launch_editor",
+		"godot4.5___run_project",
+		"godot4.5___create_scene",
+		"godot4.5___add_node"
+	],
+	"contextPatterns": {
+		"uiRoot": "UI/",
+		"uiViews": "UI/Views/",
+		"uiButtons": "UI/Buttons/",
+		"uiLists": "UI/Lists/",
+		"uiLabels": "UI/Labels/",
+		"uiMenus": "UI/Menus/",
+		"globalUI": "AutoLoad/GlobalUI.tscn"
+	},
+	"patterns": {
+		"files": [
+			"UI/**/*.gd",
+			"UI/**/*.tscn",
+			"**/*UI*.gd",
+			"**/*Button*.gd",
+			"**/*Label*.gd"
+		],
+		"code": [
+			"UINavigation",
+			"setInitialFocus",
+			"scrollWithJoystick",
+			"InputActionUI",
+			"PauseOverlay",
+			"ModalUI",
+			"Chart"
+		]
+	},
+	"codingConventions": {
+		"naming": "camelCase",
+		"noUnderscores": true,
+		"tabWidth": 2
+	},
+	"todoFocus": [
+		"标准 UI 架构实现",
+		"游戏内菜单系统",
+		"UI 窗口管理",
+		"UI 焦点导航优化",
+		"暂停菜单完善"
+	]
+}

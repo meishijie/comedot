@@ -1,0 +1,49 @@
+{
+  "name": "skill-generator",
+  "description": "【通用技能生成器】分析任意项目结构、技术栈和开发规范，自动生成项目专属 agent skills。支持 Godot、Node.js、Python、Django、React、Go、Rust 等主流技术栈。为 Claude、WARP、OpenCode 等平台生成对应格式的配置。",
+  "version": "1.0.0",
+  "scope": "global",
+  "framework": "Universal",
+  "tools": ["godot4.5___run_project", "godot4.5___get_project_info"],
+  "contextPatterns": {
+    "generators": ".factory/droids/",
+    "claudeSkills": ".claude/skills/",
+    "opencodeConfig": ".opencode/"
+  },
+  "workflow": {
+    "step1_analyze": "检测项目类型和技术栈 (package.json, go.mod, Cargo.toml, project.godot, etc.)",
+    "step2_detect": "识别核心目录结构 (src/, lib/, Components/, Entities/, tests/, etc.)",
+    "step3_generate": "根据项目特点生成专属 skills 配置",
+    "step4_output": "保存到对应平台目录 (.factory/droids/, .claude/skills/, .opencode/)"
+  },
+  "supportedFrameworks": [
+    "Godot 4.x",
+    "Node.js/React/Vue",
+    "Python/Django/Flask",
+    "Go",
+    "Rust",
+    "Java/Spring",
+    "C#/.NET",
+    "Unity"
+  ],
+  "outputFormats": [
+    {
+      "platform": "WARP/Factory",
+      "location": ".factory/droids/[skill-name].json",
+      "schema": "project-specific skill with contextPatterns"
+    },
+    {
+      "platform": "Claude Code",
+      "location": ".claude/skills/[skill-name].json",
+      "schema": "Skill.md with YAML frontmatter"
+    },
+    {
+      "platform": "OpenCode",
+      "location": ".opencode/system-prompt.md",
+      "schema": "markdown system prompt"
+    }
+  ],
+  "codingConventions": {
+    "naming": "Follow project defaults, detect from existing code"
+  }
+}

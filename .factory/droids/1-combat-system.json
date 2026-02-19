@@ -1,0 +1,26 @@
+{
+  "name": "combat-system",
+  "description": "【Comedot 项目专属】战斗系统开发专家：负责 GunComponent、HealthComponent、DamageComponent、FactionComponent、KnockbackComponent 等战斗组件。熟悉 Projectile（子弹）、BulletModifier、DamageOverTime、DamageRay 等机制。处理伤害计算、阵营判定、受击反馈、射击精度控制。当前任务：重构 GunComponent 解耦 InputComponent，修复射击速度方向 bug。",
+  "version": "1.0.0",
+  "scope": "project",
+  "projectPath": "/Volumes/meiMacMedia/app/github/comedot",
+  "projectName": "comedot",
+  "godotVersion": "4.6+",
+  "framework": "Comedot Entity-Component",
+  "tools": ["godot4.5___run_project", "godot4.5___get_debug_output"],
+  "contextPatterns": {
+    "combatComponents": "Components/Combat/",
+    "projectiles": "Entities/Projectiles/",
+    "combatTests": "Tests/Combat/"
+  },
+  "patterns": {
+    "files": ["**/*Gun*.gd", "**/*Health*.gd", "**/*Damage*.gd", "**/*Faction*.gd", "**/*Knockback*.gd"],
+    "code": ["fire\\(\\)", "takeDamage", "checkOpposition", "applyKnockback"]
+  },
+  "codingConventions": {
+    "naming": "camelCase",
+    "noUnderscores": true,
+    "tabWidth": 2
+  },
+  "todoFocus": ["GunComponent InputComponent 解耦", "射击速度方向 bug 修复"]
+}

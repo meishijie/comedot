@@ -1,0 +1,50 @@
+{
+	"name": "comedot-audio",
+	"description": "【Comedot 项目专属】音频系统专家：负责游戏中所有音频相关的开发与优化。熟悉 AutoLoad/GlobalSonic.gd（全局音频管理器），处理背景音乐、音效播放、音量控制、音频总线管理。配合 UI/Views/BusVolumeUI.gd 实现音量调节界面。处理 3D 音频空间化、音频淡入淡出、动态音效混合。当前任务：完善音频管理架构，优化音效触发机制。",
+	"version": "1.0.0",
+	"scope": "project",
+	"projectPath": "/Volumes/meiMacMedia/app/github/comedot",
+	"projectName": "comedot",
+	"godotVersion": "4.6+",
+	"framework": "Comedot Entity-Component",
+	"tools": [
+		"godot4.5___run_project",
+		"godot4.5___get_debug_output"
+	],
+	"contextPatterns": {
+		"globalSonic": "AutoLoad/GlobalSonic.gd",
+		"globalSonicScene": "AutoLoad/GlobalSonic.tscn",
+		"busVolumeUI": "UI/Views/BusVolumeUI.gd",
+		"audioAssets": "Assets/Audio/"
+	},
+	"patterns": {
+		"files": [
+			"**/*Audio*.gd",
+			"**/*Sound*.gd",
+			"**/*Music*.gd",
+			"**/*Sonic*.gd",
+			"AutoLoad/GlobalSonic*"
+		],
+		"code": [
+			"AudioStreamPlayer",
+			"AudioStreamPlayer2D",
+			"AudioServer",
+			"bus",
+			"volume",
+			"play()",
+			"stop()",
+			"GlobalSonic"
+		]
+	},
+	"codingConventions": {
+		"naming": "camelCase",
+		"noUnderscores": true,
+		"tabWidth": 2
+	},
+	"todoFocus": [
+		"音频管理架构完善",
+		"音效触发机制优化",
+		"音量控制界面集成",
+		"3D 音频空间化实现"
+	]
+}

@@ -1,0 +1,49 @@
+{
+	"name": "comedot-core",
+	"description": "【Comedot 项目专属】核心业务逻辑开发专家：负责游戏核心框架和全局系统。熟悉 AutoLoad/ 目录下的 9 个全局单例：Global.gd、GameState.gd、SceneManager.gd、GlobalInput.gd、Settings.gd、TurnBasedCoordinator.gd、Debug.gd、GlobalUI.tscn、GlobalSonic.tscn。精通 Scripts/Tools.gd 的 1400+ 行辅助函数。处理游戏状态管理、场景切换、玩家设置、全局事件。当前任务：完善 Save/Load 系统，优化 GameState 架构。",
+	"version": "2.0.0",
+	"scope": "project",
+	"projectPath": "/Volumes/meiMacMedia/app/github/comedot",
+	"projectName": "comedot",
+	"godotVersion": "4.6+",
+	"framework": "Comedot Entity-Component",
+	"tools": [
+		"godot4.5___run_project",
+		"godot4.5___get_project_info",
+		"godot4.5___get_debug_output"
+	],
+	"contextPatterns": {
+		"autoLoad": "AutoLoad/",
+		"scripts": "Scripts/",
+		"tools": "Scripts/Tools.gd",
+		"settings": "AutoLoad/Settings.gd",
+		"gameState": "AutoLoad/GameState.gd",
+		"sceneManager": "AutoLoad/SceneManager.gd"
+	},
+	"patterns": {
+		"files": [
+			"AutoLoad/*.gd",
+			"Scripts/*.gd",
+			"**/*State*.gd"
+		],
+		"code": [
+			"AutoLoad",
+			"GameState",
+			"Settings",
+			"SceneManager",
+			"Debug.print",
+			"Tools.gd"
+		]
+	},
+	"codingConventions": {
+		"naming": "camelCase",
+		"noUnderscores": true,
+		"tabWidth": 2
+	},
+	"todoFocus": [
+		"Save/Load 系统实现",
+		"GameState 架构优化",
+		"全局事件系统完善",
+		"玩家设置持久化"
+	]
+}

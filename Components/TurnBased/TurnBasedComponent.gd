@@ -59,10 +59,10 @@ func _enter_tree() -> void:
 	self.add_to_group(Global.Groups.turnBased, true)
 
 
-func registerEntity(newParentEntity: Entity) -> void:
+func registerEntity(newParentEntity: Node) -> void:
 	super.registerEntity(newParentEntity)
-	if not is_instance_of(self.parentEntity, TurnBasedEntity):
-		printWarning("Parent Entity is not a TurnBasedEntity! " + parentEntity.logFullName)
+	if parentEntity and not (is_instance_of(parentEntity, TurnBasedEntity) or parentEntity.has_method(&"processTurn")):
+		printWarning("Parent Entity is not a TurnBasedEntity! " + parentEntity.name)
 
 
 #region Turn State Cycle

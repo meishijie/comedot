@@ -21,8 +21,9 @@ extends Component
 
 
 func _ready() -> void:
+	super._ready()
 	if not nodeToRotate: self.nodeToRotate = parentEntity
-	self.set_physics_process(isEnabled and not is_zero_approx(rotationPerFrame)) # Apply setters because Godot doesn't on initialization
+	self.set_physics_process(isEnabled and nodeToRotate != null and not is_zero_approx(rotationPerFrame)) # Apply setters because Godot doesn't on initialization
 
 
 func _physics_process(delta: float) -> void: # TBD: _physics_process() instead of _process() because movement may interact with physics, right?

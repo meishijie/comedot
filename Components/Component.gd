@@ -122,7 +122,7 @@ func validateParent() -> void:
 	if debugMode: printDebug(str("validateParent(): ", newParent))
 
 	# If the parent node is not an Entity, print a warning if needed
-	if not is_instance_of(newParent, Entity):
+	if not is_instance_of(newParent, Entity) and not newParent.has_method(&"registerComponent"):
 		var message: String = str("validateParent(): Parent node is not an Entity: ", newParent, " ／ This may prevent sibling components from finding this component.")
 		if self.allowNonEntityParent:
 			printLog(message + " allowNonEntityParent: true")
@@ -130,12 +130,12 @@ func validateParent() -> void:
 
 	if not parentEntity: # Are we a new Component [or] not owned by an Entity?
 
-		if newParent is Entity: # If our parent is an Entity, all's well and good in the world.
+		if is_instance_of(newParent, Entity) or (newParent and newParent.has_method(&"registerComponent")): # If our parent is an Entity, all's well and good in the world.
 			self.registerEntity(newParent)
 
 		# If our immediate parent node is not an Entity, should we search up the scene tree hierarchy for an Entity to adopt this Component?
 		elif shouldCheckGrandparentsForEntity and not allowNonEntityParent:
-			var grandparentEntity: Entity = self.findParentEntity(true)
+			var grandparentEntity: Node = self.findParentEntity(true)
 			if grandparentEntity:
 				self.registerEntity(grandparentEntity)
 
@@ -164,27 +164,37 @@ func _enter_tree() -> void:
 		# NOTE: DESIGN: If the entity's logging flags are true, it makes sense to adopt them by default,
 		# but if the entity's logging is off and a specific component's logging is on, the component's flag should be respected.
 		# CHECK: Are these flags set only ONCE when _enter_tree() the first time, or also when a new `parentEntity` is set?
-		self.isLoggingEnabled = self.isLoggingEnabled or parentEntity.isLoggingEnabled
-		self.debugMode		  = self.debugMode or parentEntity.debugMode
-		printLog("􀈅 [b]_enter_tree() → " + parentEntity.logName + "[/b]", self.logFullName)
+		self.isLoggingEnabled = self.isLoggingEnabled or parentEntity.get(&"isLoggingEnabled")
+		self.debugMode		  = self.debugMode or parentEntity.get(&"debugMode")
+		printLog("􀈅 [b]_enter_tree() → " + str(parentEntity.get(&"logName") if parentEntity.has_method(&"get") else parentEntity.name) + "[/b]", self.logFullName)
 		self.checkRequiredComponents()
 	else:
 		self.coComponents = {} # Clear our previous memory of any siblings
 		if not allowNonEntityParent: printWarning("􀈅 [b]_enter_tree() with no parentEntity![/b]")
 
 
+func _ready() -> void:
+	# One last try to find our parent entity if everything else failed
+	if not self.parentEntity:
+		var foundEntity: Node = self.findParentEntity()
+		if foundEntity:
+			printLog("_ready(): Late registration with parentEntity success.")
+			self.registerEntity(foundEntity)
+			self.checkRequiredComponents()
+
+
 ## Search up the scene tree for a parent or grandparent node which is of type [Entity] and returns it.
 ## i.e. each parent node's parent is checked until an [Entity] is found.
-func findParentEntity(checkGrandparents: bool = self.shouldCheckGrandparentsForEntity) -> Entity:
+func findParentEntity(checkGrandparents: bool = self.shouldCheckGrandparentsForEntity) -> Node:
 	var parentOrGrandparent: Node = self.get_parent()
 
 	# If parent is null or not an Entity, check the grandparent (parent's parent) and keep searching up the tree.
 	if checkGrandparents:
-		while not (parentOrGrandparent is Entity) and not (parentOrGrandparent == null):
+		while not (is_instance_of(parentOrGrandparent, Entity) or (parentOrGrandparent and parentOrGrandparent.has_method(&"registerComponent"))) and not (parentOrGrandparent == null):
 			if debugMode: printDebug(str("findParentEntity() checking parent of non-Entity node: ", parentOrGrandparent))
 			parentOrGrandparent = parentOrGrandparent.get_parent()
 
-	if parentOrGrandparent is Entity:
+	if is_instance_of(parentOrGrandparent, Entity) or (parentOrGrandparent and parentOrGrandparent.has_method(&"registerComponent")):
 		if debugMode: printDebug(str("findParentEntity() result: ", parentOrGrandparent))
 		return parentOrGrandparent
 	elif not allowNonEntityParent:
@@ -193,12 +203,13 @@ func findParentEntity(checkGrandparents: bool = self.shouldCheckGrandparentsForE
 	return null
 
 
-func registerEntity(newParentEntity: Entity) -> void:
+func registerEntity(newParentEntity: Node) -> void:
 	if debugMode: printDebug(str("registerEntity(): ", newParentEntity))
 	if not newParentEntity: return
 	self.parentEntity = newParentEntity
-	self.parentEntity.registerComponent(self) # NOTE: DESIGN: The COMPONENT must call this method. See Entity.childEnteredTree() notes for explanation.
-	self.coComponents = parentEntity.components
+	if newParentEntity.has_method(&"registerComponent"):
+		newParentEntity.registerComponent(self) # NOTE: DESIGN: The COMPONENT must call this method. See Entity.childEnteredTree() notes for explanation.
+	self.coComponents = newParentEntity.get(&"components")
 
 
 ## Removes this component from the parent [Entity] and frees (deletes) the component unless specified.

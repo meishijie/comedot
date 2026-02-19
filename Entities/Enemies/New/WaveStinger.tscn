@@ -1,0 +1,72 @@
+[gd_scene load_steps=15 format=3 uid="uid://wave_stinger_001"]
+
+[ext_resource type="Script" uid="uid://b3tgnb1y0hgk1" path="res://Entities/Entity.gd" id="1_entity"]
+[ext_resource type="PackedScene" uid="uid://5tvqunkoa4l7" path="res://Components/Combat/FactionComponent.tscn" id="2_faction"]
+[ext_resource type="Texture2D" uid="uid://2pkst6hcbtlp" path="res://Assets/Tiles/Kenney1Bit-Colored-Transparent.png" id="2_sprite"]
+[ext_resource type="PackedScene" uid="uid://cpklu2uieedw7" path="res://Components/Combat/DamageComponent.tscn" id="3_damage"]
+[ext_resource type="PackedScene" uid="uid://cnu5f0ycxgu8d" path="res://Components/Combat/HealthComponent.tscn" id="3_health"]
+[ext_resource type="Script" uid="uid://dif3dj8k5ixfw" path="res://Resources/Stats/Stat.gd" id="4_stat"]
+[ext_resource type="PackedScene" uid="uid://ffkcrlcom1kx" path="res://Components/Combat/DamageReceivingComponent.tscn" id="6_damage_recv"]
+[ext_resource type="PackedScene" uid="uid://dpspspspspsps" path="res://Components/Movement/WaveMotionComponent.tscn" id="7_wave"]
+[ext_resource type="PackedScene" uid="uid://offscreenoffscreen" path="res://Components/Visual/OffscreenRemovalComponent.tscn" id="14_offscreen"]
+
+[sub_resource type="RectangleShape2D" id="RectShape_Body"]
+resource_local_to_scene = true
+size = Vector2(16, 16)
+
+[sub_resource type="Resource" id="Resource_Health"]
+resource_local_to_scene = true
+resource_name = "stingerHealth"
+script = ExtResource("4_stat")
+max = 1
+value = 1
+name = &"stingerHealth"
+displayName = "Stinger HP"
+metadata/_custom_type_script = "uid://dif3dj8k5ixfw"
+
+[sub_resource type="RectangleShape2D" id="RectShape_Damage"]
+resource_local_to_scene = true
+size = Vector2(14, 14)
+
+[node name="WaveStinger" type="Area2D" node_paths=PackedStringArray("sprite")]
+collision_layer = 10
+collision_mask = 126
+script = ExtResource("1_entity")
+sprite = NodePath("Sprite2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectShape_Body")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 0, 1)
+use_parent_material = true
+texture = ExtResource("2_sprite")
+region_enabled = true
+region_rect = Rect2(448, 112, 16, 16)
+
+[node name="HealthComponent" parent="." instance=ExtResource("3_health")]
+health = SubResource("Resource_Health")
+
+[node name="FactionComponent" parent="." instance=ExtResource("2_faction")]
+factions = 8
+
+[node name="DamageReceivingComponent" parent="." instance=ExtResource("6_damage_recv")]
+collision_layer = 1032
+collision_mask = 1060
+
+[node name="DamageComponent" parent="." instance=ExtResource("3_damage")]
+collision_layer = 1032
+collision_mask = 1028
+
+[node name="DamageCollisionShape" parent="DamageComponent" index="0"]
+position = Vector2(2.08165e-12, 2.08165e-12)
+shape = SubResource("RectShape_Damage")
+
+[node name="WaveMotionComponent" parent="." instance=ExtResource("7_wave")]
+speed = 150.0
+amplitude = 50.0
+frequency = 2.0
+
+[node name="OffscreenRemovalComponent" parent="." instance=ExtResource("14_offscreen")]
+
+[editable path="DamageComponent"]

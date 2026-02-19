@@ -56,7 +56,8 @@ To change which level/scene loads when the player clicks "Start":
   - Access sibling components via `coComponents` Dictionary  
   - Use `coComponents.ComponentClassName` or `coComponents.get(&"ComponentClassName")`
   - Must implement `getRequiredComponents()` for dependencies
-  - Register with parent Entity automatically via `NOTIFICATION_PARENTED`
+  - Register with parent Entity automatically via `_enter_tree()` and a retry in `_ready()`
+  - **IMPORTANT**: If overriding `_ready()`, you MUST call `super._ready()` to ensure the registration retry logic executes.
 
 ### Global AutoLoad System
 9 critical autoload scripts provide framework functionality:
@@ -162,6 +163,8 @@ func getRequiredComponents() -> Array[Script]:
 - Missing dependencies cause crashes - implement `getRequiredComponents()`
 - Use `checkRequiredComponents()` for validation
 - **InputComponent Dependency**: `GunComponent` currently has a hard dependency on `InputComponent`. If using `GunComponent` on an AI entity (like a Turret), you must add an `InputComponent` and set `isPlayerControlled = false`.
+- **Component Registration Retry**: If a component reports "No parentEntity", it likely initialized before its parent in the scene loading order. `Component.gd` includes a retry in `_ready()`. Ensure your subclass calls `super._ready()`.
+- **Flexible Weapon Interfaces**: `TurretBehaviorComponent` supports both `GunComponent` and `DamageRayComponent`. It uses `has_method(&"fire")` for guns and toggles `isEnabled` for ray-based weapons.
 
 ### Performance Considerations
 - `functionsAlreadyCalledOnceThisFrame` prevents duplicate frame calls

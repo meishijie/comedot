@@ -1,0 +1,36 @@
+{
+  "name": "comedot-testing",
+  "description": "【Comedot 项目专属】测试与调试专家：负责运行 Godot 项目测试场景、使用 DebugComponent、ChartWindow 进行实时监控。熟悉 Tests 目录下所有测试场景（Combat、TurnBased、Interaction、Pathfinding 等）。处理性能分析、场景调试、日志追踪。使用 Debug.gd 日志系统和 printWarning/printError/printTrace 进行问题定位。当前任务：运行特定测试场景验证组件功能，确保代码变更不破坏现有测试。",
+  "version": "2.0.0",
+  "scope": "project",
+  "projectPath": "/Volumes/meiMacMedia/app/github/comedot",
+  "projectName": "comedot",
+  "godotVersion": "4.6+",
+  "framework": "Comedot Entity-Component",
+  "tools": [
+    "godot4.5___run_project",
+    "godot4.5___get_debug_output",
+    "godot4.5___stop_project",
+    "godot4.5___get_project_info"
+  ],
+  "contextPatterns": {
+    "testScenes": "Tests/",
+    "debugTools": "Components/DebugComponent.gd",
+    "debugScripts": "AutoLoad/Debug.gd"
+  },
+  "patterns": {
+    "files": ["**/*Test*.tscn", "**/*Test*.gd", "**/*test*.gd"],
+    "code": ["printWarning", "printError", "printHighlight", "printTrace", "Debug.print"]
+  },
+  "codingConventions": {
+    "naming": "camelCase",
+    "noUnderscores": true,
+    "tabWidth": 2
+  },
+  "todoFocus": [
+    "运行组件测试验证功能",
+    "调试输出分析",
+    "DebugComponent 配置",
+    "确保代码变更不破坏测试"
+  ]
+}

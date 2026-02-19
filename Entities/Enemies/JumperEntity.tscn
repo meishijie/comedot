@@ -1,0 +1,95 @@
+[gd_scene load_steps=18 format=3 uid="uid://jumper_entity_001"]
+
+[ext_resource type="Script" uid="uid://b3tgnb1y0hgk1" path="res://Entities/Entity.gd" id="1_entity"]
+[ext_resource type="PackedScene" uid="uid://5tvqunkoa4l7" path="res://Components/Combat/FactionComponent.tscn" id="2_faction"]
+[ext_resource type="Texture2D" uid="uid://2pkst6hcbtlp" path="res://Assets/Tiles/Kenney1Bit-Colored-Transparent.png" id="2_sprite"]
+[ext_resource type="PackedScene" uid="uid://cpklu2uieedw7" path="res://Components/Combat/DamageComponent.tscn" id="3_damage"]
+[ext_resource type="PackedScene" uid="uid://cnu5f0ycxgu8d" path="res://Components/Combat/HealthComponent.tscn" id="3_health"]
+[ext_resource type="Script" uid="uid://dif3dj8k5ixfw" path="res://Resources/Stats/Stat.gd" id="4_stat"]
+[ext_resource type="PackedScene" uid="uid://ylultcpjxp6" path="res://Components/Physics/CornerCollisionComponent.tscn" id="4_corner"]
+[ext_resource type="PackedScene" uid="uid://cwposw6wqg1mi" path="res://Components/Movement/PlatformerPatrolComponent.tscn" id="5_patrol"]
+[ext_resource type="PackedScene" uid="uid://bgfxxe60d72c0" path="res://Components/Visual/HealthVisualComponent.tscn" id="5_healthvis"]
+[ext_resource type="PackedScene" uid="uid://ffkcrlcom1kx" path="res://Components/Combat/DamageReceivingComponent.tscn" id="6_damage_recv"]
+[ext_resource type="PackedScene" uid="uid://bv4nl55gi16vx" path="res://Components/Physics/PlatformerPhysicsComponent.tscn" id="6_physics"]
+[ext_resource type="PackedScene" uid="uid://dn7cpj4u7w1jy" path="res://Components/Physics/CharacterBodyComponent.tscn" id="7_body"]
+[ext_resource type="PackedScene" uid="uid://bx6cxxpnw2511" path="res://Components/Combat/KnockbackOnHitComponent.tscn" id="7_knockback"]
+[ext_resource type="PackedScene" uid="uid://cdq0dcwhcrm5p" path="res://Components/Control/InputComponent.tscn" id="14_input"]
+
+[sub_resource type="RectangleShape2D" id="RectShape_Body"]
+resource_local_to_scene = true
+size = Vector2(16, 16)
+
+[sub_resource type="Resource" id="Resource_Health"]
+resource_local_to_scene = true
+resource_name = "jumperHealth"
+script = ExtResource("4_stat")
+max = 2
+value = 2
+name = &"jumperHealth"
+displayName = "Jumper HP"
+metadata/_custom_type_script = "uid://dif3dj8k5ixfw"
+
+[sub_resource type="RectangleShape2D" id="RectShape_Damage"]
+resource_local_to_scene = true
+size = Vector2(18, 18)
+
+[node name="JumperEntity" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "body")]
+editor_description = "A fast jumping enemy with low health."
+collision_layer = 10
+collision_mask = 126
+floor_constant_speed = true
+platform_on_leave = 2
+script = ExtResource("1_entity")
+sprite = NodePath("Sprite2D")
+body = NodePath(".")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectShape_Body")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.6, 0.2, 1, 1)
+use_parent_material = true
+texture = ExtResource("2_sprite")
+region_enabled = true
+region_rect = Rect2(448, 64, 16, 16)
+
+[node name="HealthComponent" parent="." instance=ExtResource("3_health")]
+health = SubResource("Resource_Health")
+
+[node name="HealthVisualComponent" parent="." instance=ExtResource("5_healthvis")]
+shouldShowRemainingHealth = true
+
+[node name="FactionComponent" parent="." instance=ExtResource("2_faction")]
+factions = 8
+
+[node name="DamageReceivingComponent" parent="." instance=ExtResource("6_damage_recv")]
+collision_layer = 1032
+collision_mask = 1060
+
+[node name="KnockbackOnHitComponent" parent="." instance=ExtResource("7_knockback")]
+
+[node name="DamageComponent" parent="." instance=ExtResource("3_damage")]
+collision_layer = 1032
+collision_mask = 1028
+
+[node name="DamageCollisionShape" parent="DamageComponent" index="0"]
+position = Vector2(2.08165e-12, 2.08165e-12)
+shape = SubResource("RectShape_Damage")
+
+[node name="CornerCollisionComponent" parent="." instance=ExtResource("4_corner")]
+
+[node name="PlatformerPatrolComponent" parent="." instance=ExtResource("5_patrol")]
+detectionGap = 1.0
+randomizeInitialDirection = true
+
+[node name="PlatformerPhysicsComponent" parent="." instance=ExtResource("6_physics")]
+jumpVelocity = -400.0
+
+[node name="CharacterBodyComponent" parent="." node_paths=PackedStringArray("body") instance=ExtResource("7_body")]
+body = NodePath("..")
+
+[node name="InputComponent" parent="." instance=ExtResource("14_input")]
+isPlayerControlled = false
+
+[editable path="DamageComponent"]

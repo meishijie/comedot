@@ -1,0 +1,76 @@
+[gd_scene load_steps=18 format=3 uid="uid://ghost_001"]
+
+[ext_resource type="Script" uid="uid://b3tgnb1y0hgk1" path="res://Entities/Entity.gd" id="1_entity"]
+[ext_resource type="PackedScene" uid="uid://5tvqunkoa4l7" path="res://Components/Combat/FactionComponent.tscn" id="2_faction"]
+[ext_resource type="Texture2D" uid="uid://2pkst6hcbtlp" path="res://Assets/Tiles/Kenney1Bit-Colored-Transparent.png" id="2_sprite"]
+[ext_resource type="PackedScene" uid="uid://cpklu2uieedw7" path="res://Components/Combat/DamageComponent.tscn" id="3_damage"]
+[ext_resource type="PackedScene" uid="uid://cnu5f0ycxgu8d" path="res://Components/Combat/HealthComponent.tscn" id="3_health"]
+[ext_resource type="Script" uid="uid://dif3dj8k5ixfw" path="res://Resources/Stats/Stat.gd" id="4_stat"]
+[ext_resource type="PackedScene" uid="uid://ffkcrlcom1kx" path="res://Components/Combat/DamageReceivingComponent.tscn" id="6_damage_recv"]
+[ext_resource type="PackedScene" uid="uid://blinkpauseblink" path="res://Components/Visual/BlinkPauseComponent.tscn" id="7_blink"]
+[ext_resource type="PackedScene" uid="uid://chasechasechase" path="res://Components/Movement/ChaseComponent.tscn" id="8_chase"]
+[ext_resource type="PackedScene" uid="uid://linearmotion" path="res://Components/Movement/LinearMotionComponent.tscn" id="14_linear"]
+
+[sub_resource type="RectangleShape2D" id="RectShape_Body"]
+resource_local_to_scene = true
+size = Vector2(16, 16)
+
+[sub_resource type="Resource" id="Resource_Health"]
+resource_local_to_scene = true
+resource_name = "ghostHealth"
+script = ExtResource("4_stat")
+max = 3
+value = 3
+name = &"ghostHealth"
+displayName = "Ghost HP"
+metadata/_custom_type_script = "uid://dif3dj8k5ixfw"
+
+[sub_resource type="RectangleShape2D" id="RectShape_Damage"]
+resource_local_to_scene = true
+size = Vector2(18, 18)
+
+[node name="Ghost" type="CharacterBody2D" node_paths=PackedStringArray("sprite")]
+editor_description = "A spooky translucent enemy that blinks."
+collision_layer = 10
+collision_mask = 4  # Only collide with world but maybe pass through?
+script = ExtResource("1_entity")
+sprite = NodePath("Sprite2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectShape_Body")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.5)
+use_parent_material = true
+texture = ExtResource("2_sprite")
+region_enabled = true
+region_rect = Rect2(448, 160, 16, 16)
+
+[node name="HealthComponent" parent="." instance=ExtResource("3_health")]
+health = SubResource("Resource_Health")
+
+[node name="FactionComponent" parent="." instance=ExtResource("2_faction")]
+factions = 8
+
+[node name="DamageReceivingComponent" parent="." instance=ExtResource("6_damage_recv")]
+collision_layer = 1032
+collision_mask = 1060
+
+[node name="DamageComponent" parent="." instance=ExtResource("3_damage")]
+collision_layer = 1032
+collision_mask = 1028
+
+[node name="DamageCollisionShape" parent="DamageComponent" index="0"]
+position = Vector2(2.08165e-12, 2.08165e-12)
+shape = SubResource("RectShape_Damage")
+
+[node name="BlinkPauseComponent" parent="." instance=ExtResource("7_blink")]
+
+[node name="ChaseComponent" parent="." instance=ExtResource("8_chase")]
+targetFaction = 1
+chaseDistance = 500.0
+
+[node name="LinearMotionComponent" parent="." instance=ExtResource("14_linear")]
+speed = 100.0
+
+[editable path="DamageComponent"]

@@ -1,0 +1,26 @@
+{
+  "name": "turn-based",
+  "description": "【Comedot 项目专属】回合制系统专家：负责 TurnBasedCoordinator、TurnBasedEntity、TurnBasedComponent 及相关状态机组件。熟悉回合顺序管理、速度计算、计数器、行动点系统。处理 TileBasedPositionComponent 的回合移动、TurnBasedStateUIComponent 的 UI 同步。当前任务：完善回合制存档、UI 架构集成。",
+  "version": "1.0.0",
+  "scope": "project",
+  "projectPath": "/Volumes/meiMacMedia/app/github/comedot",
+  "projectName": "comedot",
+  "godotVersion": "4.6+",
+  "framework": "Comedot Entity-Component",
+  "tools": ["godot4.5___run_project", "godot4.5___get_debug_output"],
+  "contextPatterns": {
+    "turnBasedComponents": "Components/TurnBased/",
+    "turnBasedEntities": "Entities/TurnBased/",
+    "turnBasedTests": "Tests/TurnBased/"
+  },
+  "patterns": {
+    "files": ["**/*TurnBased*.gd", "**/*Counter*.gd"],
+    "code": ["processTurnBegin", "processTurnUpdate", "processTurnEnd", "turnStateNames"]
+  },
+  "codingConventions": {
+    "naming": "camelCase",
+    "noUnderscores": true,
+    "tabWidth": 2
+  },
+  "todoFocus": ["回合制存档系统", "TurnBased UI 架构", "速度计算优化"]
+}

@@ -1,11 +1,24 @@
-[gd_scene format=4 uid="uid://dbwiosb1xulu5"]
+[gd_scene format=4 uid="uid://game_scene_with_more_666"]
 
 [ext_resource type="Script" uid="uid://dw6w3lvrh2ggp" path="res://Scripts/Start.gd" id="1_xj2di"]
 [ext_resource type="PackedScene" uid="uid://convttrcwh6rm" path="res://Templates/HUDTemplate.tscn" id="2_i2yvf"]
 [ext_resource type="TileSet" uid="uid://bsngxcc7r2xu5" path="res://Assets/Tiles/Kenney1Bit-Monochrome-Physics.tres" id="3_xeb2q"]
 [ext_resource type="PackedScene" uid="uid://h3pbo0mlj4je" path="res://Templates/Entities/MonsterEntityTemplate-Platformer.tscn" id="4_a3w4r"]
 [ext_resource type="PackedScene" uid="uid://bumu6nhses65v" path="res://Templates/Entities/PlayerEntityTemplate-Platformer.tscn" id="4_an8j4"]
+[ext_resource type="PackedScene" uid="uid://bvrx5y2qmj8p3" path="res://Entities/Enemies/SprinterEntity.tscn" id="4_sprinter"]
 [ext_resource type="PackedScene" uid="uid://cbqmycxuwn5qb" path="res://Templates/Entities/CollectibleEntityTemplate.tscn" id="5_abcde"]
+[ext_resource type="PackedScene" uid="uid://jumper_entity_001" path="res://Entities/Enemies/JumperEntity.tscn" id="6_jumper"]
+[ext_resource type="PackedScene" uid="uid://shielded_octopus_001" path="res://Entities/Enemies/New/ShieldedOctopus.tscn" id="7_shield"]
+[ext_resource type="PackedScene" uid="uid://wave_stinger_001" path="res://Entities/Enemies/New/WaveStinger.tscn" id="8_wave"]
+[ext_resource type="PackedScene" uid="uid://eye_turret_001" path="res://Entities/Enemies/New/EyeTurret.tscn" id="9_eye"]
+[ext_resource type="PackedScene" uid="uid://chaser_001" path="res://Entities/Enemies/New/Chaser.tscn" id="10_chaser"]
+[ext_resource type="PackedScene" uid="uid://ghost_001" path="res://Entities/Enemies/New/Ghost.tscn" id="11_ghost"]
+[ext_resource type="PackedScene" uid="uid://spinner_001" path="res://Entities/Enemies/New/Spinner.tscn" id="12_spinner"]
+[ext_resource type="PackedScene" uid="uid://toxic_slime_001" path="res://Entities/Enemies/New/ToxicSlime.tscn" id="13_toxic"]
+[ext_resource type="PackedScene" uid="uid://patrol_sniper_001" path="res://Entities/Enemies/New/PatrolSniper.tscn" id="14_psniper"]
+[ext_resource type="PackedScene" uid="uid://fast_ripper_001" path="res://Entities/Enemies/New/FastRipper.tscn" id="15_fripper"]
+[ext_resource type="PackedScene" uid="uid://lurker_001" path="res://Entities/Enemies/New/Lurker.tscn" id="16_lurker"]
+
 
 [node name="PlatformerSceneTemplate" type="Node2D" unique_id=564803863]
 script = ExtResource("1_xj2di")
@@ -28,7 +41,13 @@ position = Vector2(240, 176)
 position = Vector2(400, 176)
 
 [node name="MonsterEntity3" parent="." unique_id=1284509218 instance=ExtResource("4_a3w4r")]
-position = Vector2(500, 176)
+position = Vector2(156, 160)
+
+[node name="SprinterEntity" parent="." unique_id=1545584031 instance=ExtResource("4_sprinter")]
+position = Vector2(311, 170)
+
+[node name="JumperEntity" parent="." unique_id=170286444 instance=ExtResource("6_jumper")]
+position = Vector2(560, 176)
 
 [node name="CollectibleEntity" parent="." unique_id=1082433106 instance=ExtResource("5_abcde")]
 position = Vector2(320, 100)
@@ -46,3 +65,32 @@ position = Vector2(600, 100)
 position = Vector2(240, 40)
 
 [node name="HUDTemplate" parent="." unique_id=1263819112 instance=ExtResource("2_i2yvf")]
+[node name="ShieldedOctopus" parent="." instance=ExtResource("7_shield")]
+position = Vector2(700, 176)
+
+[node name="WaveStinger" parent="." instance=ExtResource("8_wave")]
+position = Vector2(400, 80)
+
+[node name="EyeTurret" parent="." instance=ExtResource("9_eye")]
+position = Vector2(800, 150)
+
+[node name="Chaser" parent="." instance=ExtResource("10_chaser")]
+position = Vector2(100, 160)
+
+[node name="Ghost" parent="." instance=ExtResource("11_ghost")]
+position = Vector2(500, 120)
+
+[node name="Spinner" parent="." instance=ExtResource("12_spinner")]
+position = Vector2(600, 176)
+
+[node name="ToxicSlime" parent="." instance=ExtResource("13_toxic")]
+position = Vector2(900, 176)
+
+[node name="PatrolSniper" parent="." instance=ExtResource("14_psniper")]
+position = Vector2(1000, 176)
+
+[node name="FastRipper" parent="." instance=ExtResource("15_fripper")]
+position = Vector2(1100, 176)
+
+[node name="Lurker" parent="." instance=ExtResource("16_lurker")]
+position = Vector2(1200, 176)

@@ -43,8 +43,9 @@ var secondsToMaxAmplitudeY: float ## For logging & debugging
 
 
 func _ready() -> void:
+	super._ready()
 	if not nodeToMove: nodeToMove = parentEntity
-	self.set_physics_process(isEnabled) # Apply setter because Godot doesn't on initialization
+	self.set_physics_process(isEnabled and nodeToMove != null) # Apply setter because Godot doesn't on initialization
 
 
 func _physics_process(delta: float) -> void:

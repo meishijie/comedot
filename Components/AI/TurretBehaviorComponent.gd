@@ -10,11 +10,17 @@ extends Component
 ## The rotation speed in radians per second.
 @export var rotationSpeed: float = 5.0
 
+## The estimated speed of the projectile for leading targets.
+@export var projectileSpeed: float = 500.0
+
 ## If `true`, the turret will predict the target's position based on velocity.
 @export var predictTargetPosition: bool = true
 
-## The [GunComponent] to control. If `null`, looks for one in the parent entity.
-@export var gunComponent: GunComponent
+## The weapon component to control (e.g. [GunComponent] or [DamageRayComponent]). If `null`, looks for one in the parent entity.
+@export var gunComponent: Component
+
+## The detection range. If target is beyond this, turret stops firing.
+@export var range: float = 300.0
 
 ## The [Area2D] used to detect targets. If `null`, looks for one in the children.
 ## NOTE: This area should have `monitorable = false` and `monitoring = true`.
@@ -34,8 +40,10 @@ var currentTarget: Node2D
 
 
 func _ready() -> void:
+	super._ready()
 	if not gunComponent:
-		gunComponent = parentEntity.findFirstComponentSubclass(GunComponent)
+		if parentEntity:
+			gunComponent = parentEntity.findFirstComponentSubclass(GunComponent)
 		if not gunComponent:
 			printWarning("Missing GunComponent")
 			
@@ -48,9 +56,8 @@ func _ready() -> void:
 			detectionArea = parentEntity.findFirstChildOfType(Area2D)
 			
 	if detectionArea:
-		detectionArea.body_entered.connect(self.onBodyEntered)
-		detectionArea.body_exited.connect(self.onBodyExited)
-		# detectionArea.area_entered.connect(self.onAreaEntered) # Optional: target areas?
+		Tools.connectSignal(detectionArea.body_entered, self.onBodyEntered)
+		Tools.connectSignal(detectionArea.body_exited, self.onBodyExited)
 	else:
 		printWarning("Missing DetectionArea")
 
@@ -119,11 +126,7 @@ func rotateTowardsTarget(delta: float) -> void:
 	# Simple prediction
 	if predictTargetPosition and currentTarget is CharacterBody2D:
 		var dist = parentEntity.global_position.distance_to(targetPos)
-		# Approximate bullet speed? Let's assume a default or get from gun?
-		# GunComponent doesn't easily expose bullet speed unless we inspect the scene.
-		# Let's just assume a value or skip prediction if too complex for now.
-		var bulletSpeed = 500.0 # Guess
-		var timeToHit = dist / bulletSpeed
+		var timeToHit = dist / projectileSpeed
 		targetPos += (currentTarget as CharacterBody2D).velocity * timeToHit
 	
 	var targetDir = (targetPos - gunComponent.global_position).normalized()
@@ -142,9 +145,13 @@ func tryToShoot() -> void:
 	var currentDir = Vector2.RIGHT.rotated(gunComponent.global_rotation)
 	
 	if currentDir.dot(targetDir) > 0.9: # Within ~25 degrees
-		gunComponent.fire()
+		if gunComponent.has_method(&"fire"):
+			gunComponent.call(&"fire")
+		elif "isEnabled" in gunComponent:
+			gunComponent.set(&"isEnabled", true)
 	else:
-		pass
+		if "isEnabled" in gunComponent and not gunComponent.has_method(&"fire"):
+			gunComponent.set(&"isEnabled", false)
 
 
 func onBodyEntered(_body: Node2D) -> void:

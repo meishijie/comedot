@@ -74,8 +74,8 @@ var recentChaseDirection: Vector2
 
 
 #region Dependencies
-@onready var characterBodyComponent: CharacterBodyComponent = coComponents.CharacterBodyComponent
-@onready var inputComponent: InputComponent = parentEntity.findFirstComponentSubclass(InputComponent)
+@onready var characterBodyComponent: CharacterBodyComponent = coComponents.get(&"CharacterBodyComponent") if coComponents else null
+@onready var inputComponent: InputComponent = parentEntity.findFirstComponentSubclass(InputComponent) if parentEntity else null
 
 func getRequiredComponents() -> Array[Script]:
 	return [CharacterBodyComponent, InputComponent]
@@ -84,7 +84,8 @@ func getRequiredComponents() -> Array[Script]:
 
 
 func _ready() -> void:
-	if not characterBodyComponent.shouldResetVelocityIfZeroMotion:
+	super._ready()
+	if characterBodyComponent and not characterBodyComponent.shouldResetVelocityIfZeroMotion:
 		printLog("characterBodyComponent.shouldResetVelocityIfZeroMotion = false")
 		characterBodyComponent.shouldResetVelocityIfZeroMotion = false
 
@@ -128,6 +129,7 @@ func _physics_process(delta: float) -> void:
 
 	# Reverify instance to account for destroyed entities etc.
 	if not is_instance_valid(activeTarget): return # `isEnabled` checked by property setters
+	if not parentEntity or not inputComponent: return
 
 	self.recentChaseDirection = parentEntity.global_position.direction_to(activeTarget.global_position).normalized()
 	inputComponent.movementDirection = self.recentChaseDirection

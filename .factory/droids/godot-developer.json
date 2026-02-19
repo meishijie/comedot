@@ -1,0 +1,31 @@
+{
+  "name": "godot-developer",
+  "description": "Godot 4.5+ 游戏开发专属技能：1) 使用 godot4.5___launch_editor 启动 Godot 编辑器 2) 使用 godot4.5___run_project 运行项目进行测试 3) 使用 godot4.5___create_scene 创建新场景 4) 使用 godot4.5___add_node 添加节点到场景 5) 处理 Components 和 Entities 目录下的组件开发 6) 运行 GDScript 代码检查。这个 droid 熟悉 Comedot 实体-组件架构，能处理游戏场景、碰撞体、动画等开发任务。",
+  "version": "1.0.0",
+  "tools": [
+    "godot4.5___launch_editor",
+    "godot4.5___run_project",
+    "godot4.5___stop_project",
+    "godot4.5___create_scene",
+    "godot4.5___add_node",
+    "godot4.5___load_sprite",
+    "godot4.5___save_scene",
+    "godot4.5___get_debug_output",
+    "godot4.5___export_mesh_library",
+    "godot4.5___get_project_info",
+    "godot4.5___get_godot_version"
+  ],
+  "contextPatterns": {
+    "entities": "Entities/",
+    "components": "Components/",
+    "scenes": "Scenes/",
+    "tests": "Tests/",
+    "templates": "Templates/"
+  },
+  "codingConventions": {
+    "naming": "camelCase for functions/variables",
+    "noUnderscores": true,
+    "tabsOverSpaces": true,
+    "tabWidth": 2
+  }
+}
