@@ -23,6 +23,7 @@ signal didFinishBlinking
 
 
 func _ready() -> void:
+	super._ready()
 	if is_instance_of(self, Timer):
 		self.set(&"process_mode", Node.PROCESS_MODE_ALWAYS)
 		self.set(&"autostart", true)

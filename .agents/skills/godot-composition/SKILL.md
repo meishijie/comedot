@@ -40,7 +40,11 @@ elif "isEnabled" in weapon:
     weapon.set(&"isEnabled", true)
 ```
 
+### 4. Component Dependencies in `.tscn`
+If a component like `ChaseComponent` demands physical movement capabilities, the Godot `.tscn` Entity must explicitly include the necessary nodes (e.g., `CharacterBodyComponent`, `InputComponent`, and a physics component) as siblings. The framework will emit missing dependency warnings via `getRequiredComponents()` validation if they are absent.
+
 ## Anti-Patterns to Avoid
 - **Hard Dependencies**: Don't use `load()` or specific class types for weapons in turret AI.
 - **Bypassing Parent**: Never manipulate the parent's physics directly without checking if `parentEntity` is valid.
 - **Ignoring super._ready()**: Overriding `_ready()` without `super()` is the primary cause of "No parentEntity found" warnings.
+- **Inline Comments in .tscn Files**: NEVER use inline comments (e.g., `collision_mask = 4 # ignore world`) when editing `.tscn` files natively or manually. Godot's parser will silently crash on that line, breaking all subsequent lines like `script = ExtResource(...)`, permanently severing the script from the node.

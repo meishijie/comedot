@@ -1,15 +1,18 @@
-[gd_scene load_steps=18 format=3 uid="uid://ghost_001"]
+[gd_scene load_steps=18 format=3]
 
-[ext_resource type="Script" uid="uid://b3tgnb1y0hgk1" path="res://Entities/Entity.gd" id="1_entity"]
-[ext_resource type="PackedScene" uid="uid://5tvqunkoa4l7" path="res://Components/Combat/FactionComponent.tscn" id="2_faction"]
-[ext_resource type="Texture2D" uid="uid://2pkst6hcbtlp" path="res://Assets/Tiles/Kenney1Bit-Colored-Transparent.png" id="2_sprite"]
-[ext_resource type="PackedScene" uid="uid://cpklu2uieedw7" path="res://Components/Combat/DamageComponent.tscn" id="3_damage"]
-[ext_resource type="PackedScene" uid="uid://cnu5f0ycxgu8d" path="res://Components/Combat/HealthComponent.tscn" id="3_health"]
-[ext_resource type="Script" uid="uid://dif3dj8k5ixfw" path="res://Resources/Stats/Stat.gd" id="4_stat"]
-[ext_resource type="PackedScene" uid="uid://ffkcrlcom1kx" path="res://Components/Combat/DamageReceivingComponent.tscn" id="6_damage_recv"]
-[ext_resource type="PackedScene" uid="uid://blinkpauseblink" path="res://Components/Visual/BlinkPauseComponent.tscn" id="7_blink"]
-[ext_resource type="PackedScene" uid="uid://chasechasechase" path="res://Components/Movement/ChaseComponent.tscn" id="8_chase"]
-[ext_resource type="PackedScene" uid="uid://linearmotion" path="res://Components/Movement/LinearMotionComponent.tscn" id="14_linear"]
+[ext_resource type="Script" path="res://Entities/Entity.gd" id="1_entity"]
+[ext_resource type="PackedScene" path="res://Components/Combat/FactionComponent.tscn" id="2_faction"]
+[ext_resource type="Texture2D" path="res://Assets/Tiles/Kenney1Bit-Colored-Transparent.png" id="2_sprite"]
+[ext_resource type="PackedScene" path="res://Components/Combat/DamageComponent.tscn" id="3_damage"]
+[ext_resource type="PackedScene" path="res://Components/Combat/HealthComponent.tscn" id="3_health"]
+[ext_resource type="Script" path="res://Resources/Stats/Stat.gd" id="4_stat"]
+[ext_resource type="PackedScene" path="res://Components/Combat/DamageReceivingComponent.tscn" id="6_damage_recv"]
+[ext_resource type="PackedScene" path="res://Components/Visual/BlinkPauseComponent.tscn" id="7_blink"]
+[ext_resource type="PackedScene" path="res://Components/Movement/ChaseComponent.tscn" id="8_chase"]
+[ext_resource type="PackedScene" path="res://Components/Movement/LinearMotionComponent.tscn" id="14_linear"]
+[ext_resource type="PackedScene" uid="uid://df7w8y3ow41d" path="res://Components/Control/InputComponent.tscn" id="15_input"]
+[ext_resource type="PackedScene" uid="uid://cjmdy13a6wylu" path="res://Components/Physics/CharacterBodyComponent.tscn" id="16_body"]
+[ext_resource type="PackedScene" uid="uid://c6f2a6nxn424t" path="res://Components/Physics/OverheadPhysicsComponent.tscn" id="17_physics"]
 
 [sub_resource type="RectangleShape2D" id="RectShape_Body"]
 resource_local_to_scene = true
@@ -32,7 +35,7 @@ size = Vector2(18, 18)
 [node name="Ghost" type="CharacterBody2D" node_paths=PackedStringArray("sprite")]
 editor_description = "A spooky translucent enemy that blinks."
 collision_layer = 10
-collision_mask = 4  # Only collide with world but maybe pass through?
+collision_mask = 4
 script = ExtResource("1_entity")
 sprite = NodePath("Sprite2D")
 
@@ -72,5 +75,11 @@ chaseDistance = 500.0
 
 [node name="LinearMotionComponent" parent="." instance=ExtResource("14_linear")]
 speed = 100.0
+
+[node name="CharacterBodyComponent" parent="." instance=ExtResource("16_body")]
+
+[node name="InputComponent" parent="." instance=ExtResource("15_input")]
+
+[node name="OverheadPhysicsComponent" parent="." instance=ExtResource("17_physics")]
 
 [editable path="DamageComponent"]

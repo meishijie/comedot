@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c45uw8oyk0edq"]
 
-[ext_resource type="Script" uid="uid://turret_behavior_script" path="res://Components/AI/TurretBehaviorComponent.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://b63kf47bgryr1" path="res://Components/AI/TurretBehaviorComponent.gd" id="1_script"]
 
 [node name="TurretBehaviorComponent" type="Node"]
 script = ExtResource("1_script")

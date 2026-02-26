@@ -20,7 +20,7 @@ extends Component
 @export var gunComponent: Component
 
 ## The detection range. If target is beyond this, turret stops firing.
-@export var range: float = 300.0
+@export var shootRange: float = 300.0
 
 ## The [Area2D] used to detect targets. If `null`, looks for one in the children.
 ## NOTE: This area should have `monitorable = false` and `monitoring = true`.
@@ -74,22 +74,22 @@ func _process(delta: float) -> void:
 
 func updateTarget() -> void:
 	# Validate current target
-	if currentTarget and not is_instance_valid(currentTarget):
+	if not currentTarget or parentEntity.global_position.distance_to(currentTarget.global_position) > shootRange:
 		currentTarget = null
 		
 	# Find nearest valid target in detection area
 	if not detectionArea: return
 	
-	var bodies = detectionArea.get_overlapping_bodies()
-	var nearestDist = INF
-	var nearestBody = null
+	var bodies: Array[Node2D] = detectionArea.get_overlapping_bodies()
+	var nearestDist: float = INF
+	var nearestBody: Node2D = null
 	
-	for body in bodies:
+	for body: Node2D in bodies:
 		if body == parentEntity: continue
 		if body is CharacterBody2D and parentEntity.body == body: continue
 		if not isValidTarget(body): continue
 		
-		var dist = parentEntity.global_position.distance_squared_to(body.global_position)
+		var dist: float = parentEntity.global_position.distance_to(body.global_position)
 		if dist < nearestDist:
 			nearestDist = dist
 			nearestBody = body
@@ -101,7 +101,7 @@ func isValidTarget(body: Node2D) -> bool:
 	# Check Faction
 	if factionComponent:
 		# If target is an Entity or has a FactionComponent
-		var targetFactionComp = null
+		var targetFactionComp: FactionComponent = null
 		if body is Entity:
 			targetFactionComp = (body as Entity).getComponent(FactionComponent)
 		else:
@@ -114,35 +114,35 @@ func isValidTarget(body: Node2D) -> bool:
 	
 	# Check Health (don't shoot dead things)
 	if body is Entity:
-		var healthComp = (body as Entity).getComponent(HealthComponent)
+		var healthComp: HealthComponent = (body as Entity).getComponent(HealthComponent)
 		if healthComp and healthComp.health.value <= 0: return false
 		
 	return true
 
 
 func rotateTowardsTarget(delta: float) -> void:
-	var targetPos = currentTarget.global_position
+	var targetPos: Vector2 = currentTarget.global_position
 	
 	# Simple prediction
 	if predictTargetPosition and currentTarget is CharacterBody2D:
-		var dist = parentEntity.global_position.distance_to(targetPos)
-		var timeToHit = dist / projectileSpeed
+		var dist: float = parentEntity.global_position.distance_to(targetPos)
+		var timeToHit: float = dist / projectileSpeed
 		targetPos += (currentTarget as CharacterBody2D).velocity * timeToHit
 	
-	var targetDir = (targetPos - gunComponent.global_position).normalized()
-	var currentDir = Vector2.RIGHT.rotated(gunComponent.global_rotation)
+	var targetDir: Vector2 = (targetPos - gunComponent.global_position).normalized()
+	var currentDir: Vector2 = Vector2.RIGHT.rotated(gunComponent.global_rotation)
 	
 	# Interpolate rotation
-	var angleTo = currentDir.angle_to(targetDir)
-	var rotateAmount = sign(angleTo) * min(abs(angleTo), rotationSpeed * delta)
+	var angleTo: float = currentDir.angle_to(targetDir)
+	var rotateAmount: float = sign(angleTo) * min(abs(angleTo), rotationSpeed * delta)
 	
 	gunComponent.global_rotation += rotateAmount
 
 
 func tryToShoot() -> void:
 	# Only shoot if aim is close enough?
-	var targetDir = (currentTarget.global_position - gunComponent.global_position).normalized()
-	var currentDir = Vector2.RIGHT.rotated(gunComponent.global_rotation)
+	var targetDir: Vector2 = (currentTarget.global_position - gunComponent.global_position).normalized()
+	var currentDir: Vector2 = Vector2.RIGHT.rotated(gunComponent.global_rotation)
 	
 	if currentDir.dot(targetDir) > 0.9: # Within ~25 degrees
 		if gunComponent.has_method(&"fire"):

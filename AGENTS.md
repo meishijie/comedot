@@ -163,8 +163,13 @@ func getRequiredComponents() -> Array[Script]:
 - Missing dependencies cause crashes - implement `getRequiredComponents()`
 - Use `checkRequiredComponents()` for validation
 - **InputComponent Dependency**: `GunComponent` currently has a hard dependency on `InputComponent`. If using `GunComponent` on an AI entity (like a Turret), you must add an `InputComponent` and set `isPlayerControlled = false`.
+- **ChaseComponent Constraints**: If an AI entity uses `ChaseComponent`, it MUST have the required movement capabilities, such as `CharacterBodyComponent`, `InputComponent`, and a physics component (e.g., `OverheadPhysicsComponent` or `PlatformerPhysicsComponent`), otherwise warnings will correctly fire.
 - **Component Registration Retry**: If a component reports "No parentEntity", it likely initialized before its parent in the scene loading order. `Component.gd` includes a retry in `_ready()`. Ensure your subclass calls `super._ready()`.
 - **Flexible Weapon Interfaces**: `TurretBehaviorComponent` supports both `GunComponent` and `DamageRayComponent`. It uses `has_method(&"fire")` for guns and toggles `isEnabled` for ray-based weapons.
+
+### `.tscn` File Parsing & Caching Gotchas
+- **NO INLINE COMMENTS IN .tscn FILES**: When editing Godot `.tscn` files manually or via scripts, **NEVER** use inline comments (e.g., `collision_mask = 4 # ignore world`). Godot's INI-style parser does not support inline comments; doing so silently breaks the parser, causing it to ignore subsequent critical lines like `script = ExtResource("1_entity")`, completely detaching scripts and breaking the Entity architecture without an explicit crash.
+- **Corrupt UID Caches**: If the Godot engine reports `invalid UID: uid://...` errors for `ext_resource` blocks after copying or merging `.tscn` files, Godot's cache is confused. **Solution**: Safely remove the `uid="..."` attribute entirely from the offending `[ext_resource]` line. Godot will automatically fall back to the valid `path="res://..."` text resolution and regenerate the UID on the next save.
 
 ### Performance Considerations
 - `functionsAlreadyCalledOnceThisFrame` prevents duplicate frame calls

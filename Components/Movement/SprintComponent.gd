@@ -82,7 +82,7 @@ func _processIdle(delta: float) -> void:
 		currentState = State.PATROL
 
 
-func _processPatrol(delta: float) -> void:
+func _processPatrol(_delta: float) -> void:
 	# Try to detect target
 	_detectTarget()
 	if is_instance_valid(detectedTarget):
@@ -120,15 +120,18 @@ func _processCooldown(delta: float) -> void:
 
 
 func _detectTarget() -> void:
-	var targets = Engine.get_main_loop().get_nodes_in_group(detectionGroup)
+	var targets: Array[Node] = get_tree().get_nodes_in_group(detectionGroup)
 	var nearestDistance: float = detectionRange
+	var currentDetectedTarget: Node2D = null
 
-	for target in targets:
-		if target is Node2D:
-			var distance = parentEntity.global_position.distance_to(target.global_position)
+	for target_node: Node in targets:
+		if target_node is Node2D:
+			var target: Node2D = target_node
+			var distance: float = characterBodyComponent.body.global_position.distance_to(target.global_position)
 			if distance < nearestDistance:
 				nearestDistance = distance
-				detectedTarget = target
+				currentDetectedTarget = target
+	detectedTarget = currentDetectedTarget
 
 
 func getIsSprinting() -> bool:
