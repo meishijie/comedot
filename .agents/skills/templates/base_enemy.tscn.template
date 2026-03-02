@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://Entities/Entity.gd" id="1_entity"]
+[ext_resource type="Script" path="res://Components/Movement/CharacterBodyComponent.gd" id="2_body"]
+[ext_resource type="Script" path="res://Components/Control/InputComponent.gd" id="3_input"]
+[ext_resource type="Script" path="res://Components/Movement/OverheadPhysicsComponent.gd" id="4_physics"]
+
+[node name="BaseEnemyTemplate" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_entity")
+faction = &"Enemies"
+
+[node name="CharacterBodyComponent" type="Node" parent="."]
+script = ExtResource("2_body")
+
+[node name="InputComponent" type="Node" parent="."]
+script = ExtResource("3_input")
+isPlayerControlled = false
+
+[node name="OverheadPhysicsComponent" type="Node" parent="."]
+script = ExtResource("4_physics")

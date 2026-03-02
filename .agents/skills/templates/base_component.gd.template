@@ -1,0 +1,12 @@
+class_name BaseComponentTemplate extends Component
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	# CRITICAL IRON RULE: You must call super._ready() or the parentEntity lookup will fail silently!
+	super._ready()
+	
+	pass
+
+# Specify component dependencies required in the scene tree to protect against crashes
+func getRequiredComponents() -> Array[Script]:
+	return []
